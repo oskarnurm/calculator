@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.calculator,
+.clear,
+.display,
+.numpad,
+.numbers,
+.operators {
+  border: 2px solid black;
+  margin: 5px;
+}
+
+.calculator {
+  min-width: 500px;
+  min-height: 600px;
+}
+
+.display {
+  flex: 1;
+}
+
+.header,
+.numpad {
+  display: flex;
+}

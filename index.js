@@ -2,7 +2,7 @@ let currentNum = "";
 let storage = [];
 
 const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
-const operators = ["/", "*", "-", "+"];
+const operators = ["÷", "×", "-", "+"];
 
 const add = (a, b = 0) => +(a + b).toFixed(4);
 const subtract = (a, b = 0) => +(a - b).toFixed(4);
@@ -17,14 +17,14 @@ function divide(a, b = 1) {
 function calculate(a, operator, b) {
   if (operator === "+") return add(a, b);
   if (operator === "-") return subtract(a, b);
-  if (operator === "*") return mutiply(a, b);
-  if (operator === "/") return divide(a, b);
+  if (operator === "×") return mutiply(a, b);
+  if (operator === "÷") return divide(a, b);
   throw new Error(`Unknown operator: ${operator}`);
 }
 
 const display = document.querySelector(".display");
 const calculator = document.querySelector(".calculator");
-const dotBtn = document.getElementById("dot");
+const dotBtn = document.querySelector(".dot");
 
 let justEvaluated = false;
 
@@ -87,7 +87,7 @@ calculator.addEventListener("click", (e) => {
     }
 
     // Clear the display and storage
-    if (input === "C") {
+    if (input === "CE") {
       currentNum = "";
       storage = [];
       display.textContent = "";

@@ -10,7 +10,7 @@ const subtract = (a, b = 0) => +(a - b).toFixed(4);
 const mutiply = (a, b = 1) => +(a * b).toFixed(4);
 function divide(a, b = 1) {
   if (b === 0) {
-    return "Lets not break math, OK?";
+    return "Undefined";
   }
   return +(a / b).toFixed(4);
 }
@@ -23,24 +23,9 @@ function operate(a, operator, b) {
   throw new Error(`Unknown operator ${operator}`);
 }
 
-const numContainer = document.querySelector(".numbers");
-numbers.forEach((number) => {
-  const btn = document.createElement("button");
-  btn.textContent = number;
-  btn.classList.add("number");
-  numContainer.appendChild(btn);
-});
-
-const opsContainer = document.querySelector(".operators");
-operators.forEach((operator) => {
-  const btn = document.createElement("button");
-  btn.textContent = operator;
-  btn.classList.add("operator");
-  opsContainer.appendChild(btn);
-});
-
 const displayContainer = document.querySelector(".display");
 const calculatorContainer = document.querySelector(".calculator");
+const dotBtn = document.getElementById("dot");
 
 let justEvaluated = false;
 
@@ -51,6 +36,7 @@ calculatorContainer.addEventListener("click", (e) => {
       tokens = [];
       currentNum = "";
       displayContainer.textContent = "";
+      dotBtn.disabled = false;
       justEvaluated = false;
     }
 
@@ -60,17 +46,17 @@ calculatorContainer.addEventListener("click", (e) => {
         tokens.push(parseFloat(currentNum));
       }
       if (tokens.length >= 2) {
-        console.log(tokens, tokens.length);
         displayContainer.textContent = operate(tokens[0], tokens[1], tokens[2]);
       }
+      dotBtn.disabled = false;
       justEvaluated = true;
     }
 
     // parse numbers
     if (numbers.includes(input) && input !== "=") {
       // ignore duplicate dot
-      if (input === "." && currentNum.includes(".")) {
-        return;
+      if (input === "." || currentNum.includes(".")) {
+        dotBtn.disabled = true;
       }
       currentNum += input;
       displayContainer.textContent += input;
@@ -81,15 +67,12 @@ calculatorContainer.addEventListener("click", (e) => {
     if (operators.includes(input)) {
       if (currentNum.length > 0) {
         const number = parseFloat(currentNum);
-        Number.isNaN(number)
-          ? (displayContainer.textContent = "Invalid number")
-          : tokens.push(number);
+        tokens.push(number);
         tokens.push(input);
+        dotBtn.disabled = false;
         if (tokens.length >= 3) {
           const result = operate(tokens[0], tokens[1], tokens[2]);
           tokens.splice(0, 3, result);
-          // can remove this print?
-          // displayContainer.textContent = tokens.join("");
         }
         currentNum = "";
         displayContainer.textContent = tokens.join("");
@@ -108,6 +91,7 @@ calculatorContainer.addEventListener("click", (e) => {
       currentNum = "";
       tokens = [];
       displayContainer.textContent = "";
+      dotBtn.disabled = false;
     }
   }
 });

@@ -27,7 +27,8 @@ body {
 }
 
 .header,
-.numpad {
+.numpad,
+.numbers-row {
   display: flex;
 }
 
